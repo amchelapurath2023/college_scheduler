@@ -1,78 +1,77 @@
+// MainActivity.java
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
+import com.example.myapplication.ClassAdapter;
+import com.example.myapplication.ClassModel;
 
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.myapplication.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private List<ClassModel> classList;
+    private ClassAdapter classAdapter;
+
+    private EditText editTextClassName;
+    private EditText editTextClassTime;
+    private CalendarView calendarView;
+    private Button buttonAddClass;
+    private RecyclerView recyclerViewClasses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        editTextClassName = findViewById(R.id.editTextClassName);
+        editTextClassTime = findViewById(R.id.editTextClassTime);
+        calendarView = findViewById(R.id.calendarView);
+        buttonAddClass = findViewById(R.id.buttonAddClass);
+        recyclerViewClasses = findViewById(R.id.recyclerViewClasses);
 
-        setSupportActionBar(binding.toolbar);
+        classList = new ArrayList<>();
+        classAdapter = new ClassAdapter(classList);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        recyclerViewClasses.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewClasses.setAdapter(classAdapter);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        buttonAddClass.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                addClass();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void addClass() {
+        String className = editTextClassName.getText().toString().trim();
+        String classTime = editTextClassTime.getText().toString().trim();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        long selectedDateMillis = calendarView.getDate();
+        String selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(selectedDateMillis));
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (!className.isEmpty() && !classTime.isEmpty()) {
+            ClassModel newClass = new ClassModel(className, classTime, selectedDate);
+            classList.add(newClass);
+            classAdapter.notifyDataSetChanged();
+            editTextClassName.getText().clear();
+            editTextClassTime.getText().clear();
+        } else {
+            Toast.makeText(this, "Class name and time cannot be empty", Toast.LENGTH_SHORT).show();
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 }
