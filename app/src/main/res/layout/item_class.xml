@@ -9,21 +9,19 @@
         android:id="@+id/textViewClassName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
+        android:text="Class Name: "
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/textViewClassTime"
+        android:id="@+id/textViewDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:text="Date and Time: "/>
 
     <TextView
-        android:id="@+id/textViewSelectedDate"
+        android:id="@+id/textViewRecurringDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:text="Recurring Days: "/>
+
 </LinearLayout>

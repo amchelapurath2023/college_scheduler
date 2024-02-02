@@ -1,26 +1,27 @@
-// ClassModel.java
 package com.example.myapplication;
+
+import java.util.List;
 
 public class ClassModel {
     private String className;
-    private String classTime;
-    private String selectedDate;
+    private String dateTime;
+    private List<String> recurringDays;
 
-    public ClassModel(String className, String classTime, String selectedDate) {
+    public ClassModel(String className, String dateTime, List<String> recurringDays) {
         this.className = className;
-        this.classTime = classTime;
-        this.selectedDate = selectedDate;
+        this.dateTime = dateTime;
+        this.recurringDays = recurringDays;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public String getClassTime() {
-        return classTime;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public String getSelectedDate() {
-        return selectedDate;
+    public List<String> getRecurringDays() {
+        return recurringDays;
     }
 }

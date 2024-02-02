@@ -1,6 +1,4 @@
-// ClassAdapter.java
-package com.example.myapplication;
-
+package com.example.myapplication;// ClassAdapter.java
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,44 +11,45 @@ import com.example.myapplication.ClassModel;
 
 import java.util.List;
 
-public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> {
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
 
-    private List<ClassModel> classes;
+    private List<ClassModel> classList;
 
-    public ClassAdapter(List<ClassModel> classes) {
-        this.classes = classes;
+    public ClassAdapter(List<ClassModel> classList) {
+        this.classList = classList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ClassViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class, parent, false);
-        return new ViewHolder(view);
+        return new ClassViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ClassModel classModel = classes.get(position);
-        holder.textViewClassName.setText(classModel.getClassName());
-        holder.textViewClassTime.setText(classModel.getClassTime());
-        holder.textViewSelectedDate.setText(classModel.getSelectedDate());
+    public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
+        ClassModel currentClass = classList.get(position);
+        holder.textViewClassName.setText(currentClass.getClassName());
+        holder.textViewDateTime.setText(currentClass.getDateTime());
+        holder.textViewRecurringDays.setText(currentClass.getRecurringDays().toString());
     }
 
     @Override
     public int getItemCount() {
-        return classes.size();
+        return classList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewClassName;
-        TextView textViewClassTime;
-        TextView textViewSelectedDate;
+    public static class ClassViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        TextView textViewClassName;
+        TextView textViewDateTime;
+        TextView textViewRecurringDays;
+
+        public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewClassName = itemView.findViewById(R.id.textViewClassName);
-            textViewClassTime = itemView.findViewById(R.id.textViewClassTime);
-            textViewSelectedDate = itemView.findViewById(R.id.textViewSelectedDate);
+            textViewDateTime = itemView.findViewById(R.id.textViewDateTime);
+            textViewRecurringDays = itemView.findViewById(R.id.textViewRecurringDays);
         }
     }
 }
