@@ -1,11 +1,14 @@
 // MainActivity.java
 package com.example.myapplication;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBoxMonday, checkBoxTuesday, checkBoxWednesday, checkBoxThursday, checkBoxFriday;
     private Button buttonAddClass;
     private RecyclerView recyclerViewClasses;
+    private CalendarView calendarView;
 
     private Calendar selectedDateTime = Calendar.getInstance();
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxFriday = findViewById(R.id.checkBoxFriday);
         buttonAddClass = findViewById(R.id.buttonAddClass);
         recyclerViewClasses = findViewById(R.id.recyclerViewClasses);
+        calendarView = findViewById(R.id.calendarView);
 
         classList = new ArrayList<>();
         classAdapter = new ClassAdapter(classList);
@@ -71,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                selectedDateTime.set(year, month, dayOfMonth, selectedDateTime.get(Calendar.HOUR_OF_DAY), selectedDateTime.get(Calendar.MINUTE));
+                updateRecyclerView();
+            }
+        });
     }
 
     private void addClass() {
@@ -129,26 +141,61 @@ public class MainActivity extends AppCompatActivity {
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        // Set the selected time to the Calendar instance
                         selectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         selectedDateTime.set(Calendar.MINUTE, minute);
-
-                        // Format and display the selected time in the EditText
                         editTextClassTime.setText(formatTime(selectedDateTime));
                     }
                 },
                 selectedDateTime.get(Calendar.HOUR_OF_DAY),
                 selectedDateTime.get(Calendar.MINUTE),
-                false  // Set to true for 24-hour format, false for 12-hour format
+                false
         );
 
         timePickerDialog.show();
     }
 
-    // Helper method to format time
+    private void updateRecyclerView() {
+        List<ClassModel> filteredClasses = filterClassesByDate(classList, formatDate(selectedDateTime));
+        classAdapter.setClassList(filteredClasses);
+        classAdapter.notifyDataSetChanged();
+    }
+
+    private List<ClassModel> filterClassesByDate(List<ClassModel> allClasses, String selectedDate) {
+        List<ClassModel> filteredClasses = new ArrayList<>();
+
+        for (ClassModel classModel : allClasses) {
+            if (classModel.getRecurringDays().contains(getDayName(selectedDateTime.get(Calendar.DAY_OF_WEEK)))) {
+                filteredClasses.add(classModel);
+            }
+        }
+
+        return filteredClasses;
+    }
+
     private String formatTime(Calendar calendar) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return timeFormat.format(calendar.getTime());
     }
 
+    private String formatDate(Calendar calendar) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(calendar.getTime());
+    }
+
+    private String getDayName(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            default:
+                return "";
+        }
+    }
 }

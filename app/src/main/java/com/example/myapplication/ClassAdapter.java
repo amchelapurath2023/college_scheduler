@@ -1,4 +1,6 @@
-package com.example.myapplication;// ClassAdapter.java
+// ClassAdapter.java
+package com.example.myapplication;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     @Override
     public int getItemCount() {
         return classList.size();
+    }
+
+    // New method to update the classList
+    public void setClassList(List<ClassModel> newList) {
+        classList = newList;
+        notifyDataSetChanged();
     }
 
     public static class ClassViewHolder extends RecyclerView.ViewHolder {

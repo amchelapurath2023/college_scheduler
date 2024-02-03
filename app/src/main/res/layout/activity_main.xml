@@ -81,10 +81,16 @@
         android:text="Add Class"
         tools:ignore="NotSibling" />
 
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/buttonAddClass" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewClasses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/buttonAddClass"
+        android:layout_below="@id/calendarView"
         android:layout_marginTop="8dp"/>
 </RelativeLayout>
