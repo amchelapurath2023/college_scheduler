@@ -1,9 +1,9 @@
-// ClassAdapter.java
 package com.example.myapplication;
-
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +13,7 @@ import com.example.myapplication.ClassModel;
 
 import java.util.List;
 
+// ClassAdapter.java
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
 
     private List<ClassModel> classList;
@@ -29,11 +30,20 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ClassViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ClassModel currentClass = classList.get(position);
         holder.textViewClassName.setText(currentClass.getClassName());
         holder.textViewDateTime.setText(currentClass.getDateTime());
         holder.textViewRecurringDays.setText(currentClass.getRecurringDays().toString());
+
+        // Set up a click listener for the delete button
+        holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call a method to handle the delete action
+                deleteItem(position);
+            }
+        });
     }
 
     @Override
@@ -41,9 +51,13 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         return classList.size();
     }
 
-    // New method to update the classList
     public void setClassList(List<ClassModel> newList) {
         classList = newList;
+        notifyDataSetChanged();
+    }
+
+    private void deleteItem(int position) {
+        classList.remove(position);
         notifyDataSetChanged();
     }
 
@@ -52,12 +66,14 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         TextView textViewClassName;
         TextView textViewDateTime;
         TextView textViewRecurringDays;
+        ImageButton buttonDelete;
 
         public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewClassName = itemView.findViewById(R.id.textViewClassName);
             textViewDateTime = itemView.findViewById(R.id.textViewDateTime);
             textViewRecurringDays = itemView.findViewById(R.id.textViewRecurringDays);
+            buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
     }
 }
