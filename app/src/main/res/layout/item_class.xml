@@ -19,6 +19,12 @@
         android:text="Date and Time: "/>
 
     <TextView
+        android:id="@+id/textViewProfName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prof. Name"/>
+
+    <TextView
         android:id="@+id/textViewRecurringDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -7,10 +7,14 @@ public class ClassModel {
     private String dateTime;
     private List<String> recurringDays;
 
-    public ClassModel(String className, String dateTime, List<String> recurringDays) {
+    private String profName;
+
+    public ClassModel(String className, String dateTime, String profName, List<String> recurringDays) {
         this.className = className;
         this.dateTime = dateTime;
+        this.profName = profName;
         this.recurringDays = recurringDays;
+
     }
 
     public String getClassName() {
@@ -20,6 +24,8 @@ public class ClassModel {
     public String getDateTime() {
         return dateTime;
     }
+
+    public String getProfName() {return  profName;}
 
     public List<String> getRecurringDays() {
         return recurringDays;

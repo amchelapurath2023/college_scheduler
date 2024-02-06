@@ -8,30 +8,44 @@
         android:id="@+id/editTextClassName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter class name"
-        android:layout_margin="16dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:hint="Enter class name" />
 
     <EditText
         android:id="@+id/editTextClassTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextClassName"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:focusable="false"
         android:hint="Enter class time" />
+
+    <EditText
+        android:id="@+id/editTextProfName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextClassTime"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:hint="Enter Professor's Name" />
 
     <!-- Use a horizontal LinearLayout for the checkboxes -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/editTextClassTime"
+        android:layout_below="@id/editTextProfName"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp">
+        android:layout_marginStart="8dp">
 
         <CheckBox
             android:id="@+id/checkBoxMonday"
@@ -76,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBoxMonday"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="250dp"
         android:layout_centerHorizontal="true"
         android:text="Add Class"
         tools:ignore="NotSibling" />

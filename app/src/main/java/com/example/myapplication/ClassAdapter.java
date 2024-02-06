@@ -34,6 +34,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         ClassModel currentClass = classList.get(position);
         holder.textViewClassName.setText(currentClass.getClassName());
         holder.textViewDateTime.setText(currentClass.getDateTime());
+        holder.textViewProfName.setText(currentClass.getProfName());
         holder.textViewRecurringDays.setText(currentClass.getRecurringDays().toString());
 
         // Set up a click listener for the delete button
@@ -66,12 +67,15 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         TextView textViewClassName;
         TextView textViewDateTime;
         TextView textViewRecurringDays;
+
+        TextView textViewProfName;
         ImageButton buttonDelete;
 
         public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewClassName = itemView.findViewById(R.id.textViewClassName);
             textViewDateTime = itemView.findViewById(R.id.textViewDateTime);
+            textViewProfName = itemView.findViewById(R.id.textViewProfName);
             textViewRecurringDays = itemView.findViewById(R.id.textViewRecurringDays);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }

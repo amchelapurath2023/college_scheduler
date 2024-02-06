@@ -19,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +34,8 @@ public class ClassFragment extends Fragment {
 
     private EditText editTextClassName;
     private EditText editTextClassTime;
+
+    private EditText editTextProfName;
     private CheckBox checkBoxMonday, checkBoxTuesday, checkBoxWednesday, checkBoxThursday, checkBoxFriday;
     private Button buttonAddClass;
     private RecyclerView recyclerViewClasses;
@@ -48,11 +53,11 @@ public class ClassFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("tag", "reached");
         View rootView = inflater.inflate(R.layout.fragment_class, container, false);
 
         editTextClassName = rootView.findViewById(R.id.editTextClassName);
         editTextClassTime = rootView.findViewById(R.id.editTextClassTime);
+        editTextProfName = rootView.findViewById(R.id.editTextProfName);
         checkBoxMonday = rootView.findViewById(R.id.checkBoxMonday);
         checkBoxTuesday = rootView.findViewById(R.id.checkBoxTuesday);
         checkBoxWednesday = rootView.findViewById(R.id.checkBoxWednesday);
@@ -94,13 +99,15 @@ public class ClassFragment extends Fragment {
 
 private void addClass() {
         String className = editTextClassName.getText().toString().trim();
+        String profName = editTextProfName.getText().toString().trim();
         List<String> recurringDays = getSelectedRecurringDays();
 
         if (!className.isEmpty() && !recurringDays.isEmpty()) {
-            ClassModel newClass = new ClassModel(className, formatDateAndTime(selectedDateTime), recurringDays);
+            ClassModel newClass = new ClassModel(className, formatDateAndTime(selectedDateTime), profName, recurringDays);
             classList.add(newClass);
             classAdapter.notifyDataSetChanged();
             editTextClassName.getText().clear();
+            editTextProfName.getText().clear();
             clearRecurringDays();
         } else {
             Toast.makeText(requireContext(), "Class name and recurring days cannot be empty", Toast.LENGTH_SHORT).show();
@@ -232,6 +239,8 @@ private void addClass() {
 
         TextView textViewClassName;
         TextView textViewDateTime;
+
+        TextView textViewProfName;
         TextView textViewRecurringDays;
         ImageButton buttonDelete;
 
@@ -239,6 +248,7 @@ private void addClass() {
             super(itemView);
             textViewClassName = itemView.findViewById(R.id.textViewClassName);
             textViewDateTime = itemView.findViewById(R.id.textViewDateTime);
+            textViewProfName = itemView.findViewById(R.id.textViewProfName);
             textViewRecurringDays = itemView.findViewById(R.id.textViewRecurringDays);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
