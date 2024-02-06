@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new ClassFragment();
                     } else if (item.getItemId() == R.id.nav_exam) {
                         selectedFragment = new ExamFragment();
+                    } else if (item.getItemId() == R.id.nav_assignments) {
+                        selectedFragment = new ClassAssignmentFragment();
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
