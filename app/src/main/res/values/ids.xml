@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="editTextClassName" type="id"/>
+    <item name="editTextClassTime" type="id"/>
+    <item name="checkBoxMonday" type="id"/>
+    <item name="checkBoxTuesday" type="id"/>
+    <item name="checkBoxWednesday" type="id"/>
+    <item name="checkBoxThursday" type="id"/>
+    <item name="checkBoxFriday" type="id"/>
+    <item name="buttonAddClass" type="id"/>
+    <item name="calendarView" type="id"/>
+    <item name="recyclerViewClasses" type="id"/>
 </resources>
