@@ -1,14 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_class"
+        android:icon="@drawable/ic_schedule"
         android:title="Class" />
     <item
         android:id="@+id/nav_todo"
+        android:icon="@drawable/ic_todo"
         android:title="To-Do" />
     <item
         android:id="@+id/nav_exam"
+        android:icon="@drawable/ic_exam"
         android:title="Exam" />
     <item
         android:id="@+id/nav_assignments"
+        android:icon="@drawable/assignment"
         android:title="Assignments"/>
 </menu>
