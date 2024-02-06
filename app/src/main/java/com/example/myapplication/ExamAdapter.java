@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,10 +32,23 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         return new ExamViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
-        ExamDetails exam = examList.get(position);
-        holder.bind(exam);
+    public void onBindViewHolder(@NonNull ExamViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        ExamDetails currentExam = examList.get(position);
+        holder.dateTextView.setText("Date: " + currentExam.getDate());
+        holder.timeTextView.setText("Time: " + currentExam.getTime());
+        holder.locationTextView.setText("Location: " + currentExam.getLocation());
+        holder.examClass.setText("Class: " + currentExam.getExamClass());
+
+        // Set up a click listener for the delete button
+        holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call a method to handle the delete action
+                removeExam(position);
+            }
+        });
     }
 
     @Override
@@ -41,19 +56,22 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         return examList.size();
     }
 
+    private void removeExam(int position) {
+        examList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void addExam(ExamDetails exam) {
         examList.add(exam);
         notifyItemInserted(examList.size() - 1);
     }
 
-    public void removeExam(int position) {
-        examList.remove(position);
-        notifyItemRemoved(position);
-    }
+
 
     public class ExamViewHolder extends RecyclerView.ViewHolder {
 
         private TextView dateTextView, timeTextView, locationTextView, examClass;
+        ImageButton buttonDelete;
 
         public ExamViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +79,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
             timeTextView = itemView.findViewById(R.id.timeTextView);
             locationTextView = itemView.findViewById(R.id.locationTextView);
             examClass = itemView.findViewById(R.id.examClassTextView);
+            buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
 
         public void bind(ExamDetails exam) {

@@ -40,6 +40,7 @@ public class ClassAssignmentAdapter extends RecyclerView.Adapter<ClassAssignment
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ClassAssignment assignment = assignments.get(position);
         holder.taskTextView.setText(assignment.getTask());
+        holder.dateTextView.setText(assignment.getDate());
         holder.classTextView.setText(assignment.getAssignedClass());
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -58,13 +59,14 @@ public class ClassAssignmentAdapter extends RecyclerView.Adapter<ClassAssignment
     }
 
     public static class AssignmentViewHolder extends RecyclerView.ViewHolder {
-        TextView taskTextView, classTextView;
+        TextView taskTextView, classTextView, dateTextView;
         ImageButton deleteButton;
 
         public AssignmentViewHolder(@NonNull View itemView) {
             super(itemView);
             taskTextView = itemView.findViewById(R.id.taskTextView);
             classTextView = itemView.findViewById(R.id.classTextView);
+            dateTextView = itemView.findViewById(R.id.dateTextView);
             deleteButton = itemView.findViewById(R.id.buttonDelete);
         }
     }
