@@ -10,4 +10,9 @@
     <item name="buttonAddClass" type="id"/>
     <item name="calendarView" type="id"/>
     <item name="recyclerViewClasses" type="id"/>
+    <item name="examListView" type="id" />
+    <item name="addButton" type="id" />
+    <item name="locationEditText" type="id" />
+    <item name="timeEditText" type="id" />
+    <item name="dateEditText" type="id" />
 </resources>

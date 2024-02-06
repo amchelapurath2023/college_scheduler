@@ -71,6 +71,8 @@ public class ToDoFragment extends Fragment {
         });
     }
 
+
+
     private void addItem(View view) {
         EditText input = edit_text;
         String itemText = input.getText().toString();
