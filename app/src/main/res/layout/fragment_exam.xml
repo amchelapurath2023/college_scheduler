@@ -36,6 +36,7 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_below="@id/examClass"
         android:layout_marginTop="16dp"
         android:text="Add Exam" />

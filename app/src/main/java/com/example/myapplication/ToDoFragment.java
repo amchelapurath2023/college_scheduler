@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class ToDoFragment extends Fragment {
 
-    private ArrayList<String> items;
     private Button button;
     private EditText edit_text;
     private ToDoAdapter adapter;
@@ -42,8 +41,7 @@ public class ToDoFragment extends Fragment {
             }
         });
 
-        items = new ArrayList<>();
-        adapter = new ToDoAdapter(items, new ToDoAdapter.OnItemClickListener() {
+        adapter = new ToDoAdapter((ArrayList<String>) MockDatabase.DATABASE.getToDoList(), new ToDoAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
                 deleteItem(position);
@@ -59,14 +57,14 @@ public class ToDoFragment extends Fragment {
         String itemText = edit_text.getText().toString();
 
         if (!itemText.isEmpty()) {
-            items.add(itemText);
-            adapter.notifyItemInserted(items.size() - 1);
+            MockDatabase.DATABASE.addToDoItem(itemText);
+            adapter.notifyItemInserted(MockDatabase.DATABASE.getToDoList().size() - 1);
             edit_text.setText("");
         }
     }
 
     private void deleteItem(int position) {
-        items.remove(position);
+        MockDatabase.DATABASE.removeToDoItem(MockDatabase.DATABASE.getToDoList().get(position));
         adapter.notifyItemRemoved(position);
     }
 }

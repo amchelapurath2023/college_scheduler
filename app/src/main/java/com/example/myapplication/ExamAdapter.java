@@ -62,7 +62,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
     }
 
     public void addExam(ExamDetails exam) {
-        examList.add(exam);
+        //examList.add(exam);
         notifyItemInserted(examList.size() - 1);
     }
 

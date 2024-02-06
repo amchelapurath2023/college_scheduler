@@ -26,11 +26,12 @@ import com.example.myapplication.ExamDetails;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class ExamFragment extends Fragment {
 
-    private ArrayList<ExamDetails> examList;
+
     private RecyclerView examRecyclerView;
     private Button addButton, chooseDateButton;
     private EditText dateEditText, timeEditText, locationEditText, examClass;
@@ -72,8 +73,8 @@ public class ExamFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         examRecyclerView.setLayoutManager(layoutManager);
 
-        examList = new ArrayList<>();
-        examAdapter = new ExamAdapter(requireContext(), examList);
+
+        examAdapter = new ExamAdapter(requireContext(), (ArrayList<ExamDetails>) MockDatabase.DATABASE.getExamList());
         examRecyclerView.setAdapter(examAdapter);
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +137,8 @@ public class ExamFragment extends Fragment {
 
         if (!date.isEmpty() && !time.isEmpty() && !location.isEmpty() && !subject.isEmpty()) {
             ExamDetails exam = new ExamDetails(date, time, location, subject);
+            MockDatabase.DATABASE.addExam(exam);
+
             examAdapter.addExam(exam);
 
             dateEditText.setText("");
@@ -147,7 +150,7 @@ public class ExamFragment extends Fragment {
         }
     }
     public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
-        ExamDetails currentExam = examList.get(position);
+        ExamDetails currentExam = MockDatabase.DATABASE.getExamList().get(position);
         holder.dateTextView.setText("Date: " + currentExam.getDate());
         holder.timeTextView.setText("Time: " + currentExam.getTime());
         holder.locationTextView.setText("Location: " + currentExam.getLocation());
@@ -165,7 +168,7 @@ public class ExamFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void deleteItem(int position) {
-        examList.remove(position);
+        MockDatabase.DATABASE.removeExam(MockDatabase.DATABASE.getExamList().get(position));
         examAdapter.notifyDataSetChanged();
     }
 

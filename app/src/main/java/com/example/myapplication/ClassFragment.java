@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClassFragment extends Fragment {
-    private List<ClassModel> classList;
     private ClassAdapter classAdapter;
 
     private EditText editTextClassName;
@@ -67,8 +66,7 @@ public class ClassFragment extends Fragment {
         recyclerViewClasses = rootView.findViewById(R.id.recyclerViewClasses);
         calendarView = rootView.findViewById(R.id.calendarView);
 
-        classList = new ArrayList<>();
-        classAdapter = new ClassAdapter(classList);
+        classAdapter = new ClassAdapter(MockDatabase.DATABASE.getClassList());
 
         recyclerViewClasses.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerViewClasses.setAdapter(classAdapter);
@@ -104,7 +102,7 @@ private void addClass() {
 
         if (!className.isEmpty() && !recurringDays.isEmpty()) {
             ClassModel newClass = new ClassModel(className, formatDateAndTime(selectedDateTime), profName, recurringDays);
-            classList.add(newClass);
+            MockDatabase.DATABASE.addClass(newClass);
             classAdapter.notifyDataSetChanged();
             editTextClassName.getText().clear();
             editTextProfName.getText().clear();
@@ -170,7 +168,7 @@ private void addClass() {
     }
 
     private void updateRecyclerView() {
-        List<ClassModel> filteredClasses = filterClassesByDate(classList, formatDate(selectedDateTime));
+        List<ClassModel> filteredClasses = filterClassesByDate(MockDatabase.DATABASE.getClassList(), formatDate(selectedDateTime));
         classAdapter.setClassList(filteredClasses);
         classAdapter.notifyDataSetChanged();
     }
@@ -214,7 +212,7 @@ private void addClass() {
         }
     }
     public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
-        ClassModel currentClass = classList.get(position);
+        ClassModel currentClass = MockDatabase.DATABASE.getClassList().get(position);
         holder.textViewClassName.setText(currentClass.getClassName());
         holder.textViewDateTime.setText(currentClass.getDateTime());
         holder.textViewRecurringDays.setText(currentClass.getRecurringDays().toString());
@@ -231,7 +229,7 @@ private void addClass() {
 
     @SuppressLint("NotifyDataSetChanged")
     private void deleteItem(int position) {
-        classList.remove(position);
+        MockDatabase.DATABASE.removeClass(MockDatabase.DATABASE.getClassList().get(position));
         classAdapter.notifyDataSetChanged();
     }
 

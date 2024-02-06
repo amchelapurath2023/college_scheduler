@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class ClassAssignmentFragment extends Fragment {
 
-    private ArrayList<ClassAssignment> assignments;
+
     private Button addButton;
     private EditText taskEditText, classEditText, dateEditText;
     private ClassAssignmentAdapter adapter;
@@ -54,8 +54,7 @@ public class ClassAssignmentFragment extends Fragment {
             }
         });
 
-        assignments = new ArrayList<>();
-        adapter = new ClassAssignmentAdapter(assignments, new ClassAssignmentAdapter.OnDeleteItemClickListener() {
+        adapter = new ClassAssignmentAdapter((ArrayList<ClassAssignment>) MockDatabase.DATABASE.getAssignmentList(), new ClassAssignmentAdapter.OnDeleteItemClickListener() {
             @Override
             public void onDeleteItemClick(int position) {
                 deleteAssignment(position);
@@ -91,8 +90,8 @@ public class ClassAssignmentFragment extends Fragment {
 
         if (!task.isEmpty() && !classText.isEmpty()) {
             ClassAssignment assignment = new ClassAssignment(task, classText, dateText);
-            assignments.add(assignment);
-            adapter.notifyItemInserted(assignments.size() - 1);
+            MockDatabase.DATABASE.addAssignment(assignment);
+            adapter.notifyItemInserted(MockDatabase.DATABASE.getAssignmentList().size() - 1);
             taskEditText.setText("");
             dateEditText.setText("");
             classEditText.setText("");
@@ -100,7 +99,7 @@ public class ClassAssignmentFragment extends Fragment {
     }
 
     private void deleteAssignment(int position) {
-        assignments.remove(position);
+        MockDatabase.DATABASE.removeAssignment(MockDatabase.DATABASE.getAssignmentList().get(position));
         adapter.notifyItemRemoved(position);
     }
 }
