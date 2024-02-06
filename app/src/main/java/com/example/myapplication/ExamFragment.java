@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -9,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -140,6 +144,47 @@ public class ExamFragment extends Fragment {
             examClass.setText("");
         } else {
             Toast.makeText(requireContext(), "Please enter all details", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
+        ExamDetails currentExam = examList.get(position);
+        holder.dateTextView.setText("Date: " + currentExam.getDate());
+        holder.timeTextView.setText("Time: " + currentExam.getTime());
+        holder.locationTextView.setText("Location: " + currentExam.getLocation());
+        holder.examClassTextView.setText("Class: " + currentExam.getExamClass());
+
+        // Set up a click listener for the delete button
+        holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call a method to handle the delete action
+                deleteItem(position);
+            }
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void deleteItem(int position) {
+        examList.remove(position);
+        examAdapter.notifyDataSetChanged();
+    }
+
+    public static class ExamViewHolder extends RecyclerView.ViewHolder {
+
+        TextView dateTextView;
+        TextView timeTextView;
+        TextView locationTextView;
+        TextView examClassTextView;
+
+        ImageButton buttonDelete;
+
+        public ExamViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dateTextView = itemView.findViewById(R.id.dateTextView);
+            timeTextView = itemView.findViewById(R.id.timeTextView);
+            locationTextView = itemView.findViewById(R.id.locationTextView);
+            examClassTextView = itemView.findViewById(R.id.examClassTextView);
+            buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
     }
 }
