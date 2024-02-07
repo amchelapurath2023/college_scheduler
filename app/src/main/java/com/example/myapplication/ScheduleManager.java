@@ -1,12 +1,19 @@
 package com.example.myapplication;
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ScheduleManager {
     private List<ExamDetails> examList;
     private List<String> toDoList;
     private List<ClassModel> classList;
-    private List<ClassAssignment> assignmentList;
+    private static List<ClassAssignment> assignmentList;
 
     public ScheduleManager() {
         examList = new ArrayList<>();
@@ -102,6 +109,43 @@ public class ScheduleManager {
 
     public void removeAssignment(ClassAssignment assignment) {
         assignmentList.remove(assignment);
+    }
+
+    public static void sortAssignmentsByDueDate() {
+        List<ClassAssignment> sortedList = assignmentList;
+        Collections.sort(sortedList, new Comparator<ClassAssignment>() {
+            @Override
+            public int compare(ClassAssignment assignment1, ClassAssignment assignment2) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date1 = null;
+                try {
+                    date1 = dateFormat.parse(assignment1.getDate());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Date date2 = null;
+                try {
+                    date2 = dateFormat.parse(assignment2.getDate());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                return date1.after(date2) ? 1 : -1;
+            }
+        });
+        assignmentList = sortedList;
+        Log.d("Test", assignmentList.toString());
+    }
+
+    public static void sortAssignmentsByCourse() {
+        List<ClassAssignment> sortedList = new ArrayList<>(assignmentList);
+        Collections.sort(sortedList, new Comparator<ClassAssignment>() {
+            @Override
+            public int compare(ClassAssignment assignment1, ClassAssignment assignment2) {
+                return assignment1.getAssignedClass().compareTo(assignment2.getAssignedClass());
+            }
+        });
+        assignmentList.clear();
+        assignmentList.addAll(sortedList);
     }
 }
 

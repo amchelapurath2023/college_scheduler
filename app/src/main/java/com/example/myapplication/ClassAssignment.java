@@ -19,4 +19,6 @@ public class ClassAssignment {
     }
 
     public String getDate(){return date;}
+
+
 }

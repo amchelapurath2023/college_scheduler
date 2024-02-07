@@ -32,13 +32,32 @@
         android:hint="Enter Due Date"
         android:padding="8dp"/>
 
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateEditText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"
+        android:entries="@array/sort_options"/>
+
+    <Button
+        android:id="@+id/sortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dateEditText"
+        android:layout_alignLeft="@+id/sortSpinner"
+        android:layout_marginLeft="-114dp"
+        android:layout_marginTop="1dp"
+        android:text="Sort" />
+
     <Button
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/dateEditText"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_alignParentEnd="true"
         android:text="Add" />
 
 

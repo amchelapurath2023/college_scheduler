@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,15 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ClassAssignment;
 import com.example.myapplication.ClassAssignmentAdapter;
+import com.example.myapplication.MockDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class ClassAssignmentFragment extends Fragment {
 
-
     private Button addButton;
     private EditText taskEditText, classEditText, dateEditText;
+    private Spinner sortSpinner;
     private ClassAssignmentAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -39,6 +44,7 @@ public class ClassAssignmentFragment extends Fragment {
         taskEditText = rootView.findViewById(R.id.taskEditText);
         classEditText = rootView.findViewById(R.id.classEditText);
         dateEditText = rootView.findViewById(R.id.dateEditText);
+        sortSpinner = rootView.findViewById(R.id.sortSpinner);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +68,15 @@ public class ClassAssignmentFragment extends Fragment {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
+
+        // Sorting options
+        Button sortButton = rootView.findViewById(R.id.sortButton);
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortAssignments();
+            }
+        });
 
         return rootView;
     }
@@ -102,4 +117,19 @@ public class ClassAssignmentFragment extends Fragment {
         MockDatabase.DATABASE.removeAssignment(MockDatabase.DATABASE.getAssignmentList().get(position));
         adapter.notifyItemRemoved(position);
     }
+
+    // Method to sort assignments based on the selected sorting option
+    private void sortAssignments() {
+        int selectedItemPosition = sortSpinner.getSelectedItemPosition();
+        switch (selectedItemPosition) {
+            case 0: // Sort by due date
+                MockDatabase.DATABASE.sortAssignmentsByDueDate();;
+                break;
+            case 1: // Sort by course
+                MockDatabase.DATABASE.sortAssignmentsByCourse();
+                break;
+        }
+        adapter.updateList(MockDatabase.DATABASE.getAssignmentList());
+    }
+
 }

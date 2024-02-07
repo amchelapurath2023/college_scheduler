@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.ClassAssignment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClassAssignmentAdapter extends RecyclerView.Adapter<ClassAssignmentAdapter.AssignmentViewHolder> {
 
@@ -27,6 +28,11 @@ public class ClassAssignmentAdapter extends RecyclerView.Adapter<ClassAssignment
     public ClassAssignmentAdapter(ArrayList<ClassAssignment> assignments, OnDeleteItemClickListener listener) {
         this.assignments = assignments;
         this.deleteItemClickListener = listener;
+    }
+
+    public void updateList(List<ClassAssignment> newList) {
+        assignments = (ArrayList<ClassAssignment>) newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
